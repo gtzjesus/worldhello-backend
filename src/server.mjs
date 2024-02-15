@@ -6,6 +6,14 @@ import bodyParser from 'body-parser';
 const app = express();
 const port = process.env.PORT || 3001;
 
+// Handle preflight requests
+app.options('/api/sendEmail', (req, res) => {
+  res.set('Access-Control-Allow-Origin', 'https://worldhello.us');
+  res.set('Access-Control-Allow-Methods', 'POST');
+  res.set('Access-Control-Allow-Headers', 'Content-Type');
+  res.status(200).end();
+});
+
 app.post('/api/sendEmail', async (req, res) => {
   try {
     const {
@@ -70,14 +78,6 @@ app.use(
     allowedHeaders: ['Content-Type', 'Authorization'],
   })
 );
-
-// Handle preflight requests
-app.options('/api/sendEmail', (req, res) => {
-  res.set('Access-Control-Allow-Origin', 'https://worldhello.us');
-  res.set('Access-Control-Allow-Methods', 'POST');
-  res.set('Access-Control-Allow-Headers', 'Content-Type');
-  res.status(200).end();
-});
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
