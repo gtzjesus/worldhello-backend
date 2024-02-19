@@ -7,12 +7,12 @@ const app = express();
 const port = process.env.PORT || 3001;
 
 // Handle preflight requests
-// app.options('/api/sendEmail', (req, res) => {
-//   res.set('Access-Control-Allow-Origin', 'https://worldhello.us');
-//   res.set('Access-Control-Allow-Methods', 'POST');
-//   res.set('Access-Control-Allow-Headers', 'Content-Type');
-//   res.status(200).end();
-// });
+app.options('/api/sendEmail', (req, res) => {
+  res.set('Access-Control-Allow-Origin', 'https://worldhello.us');
+  res.set('Access-Control-Allow-Methods', 'POST');
+  res.set('Access-Control-Allow-Headers', 'Content-Type');
+  res.status(200).end();
+});
 
 app.post('/api/sendEmail', async (req, res) => {
   try {
