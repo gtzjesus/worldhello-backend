@@ -6,6 +6,18 @@ import bodyParser from 'body-parser';
 const app = express();
 const port = process.env.PORT || 3001;
 
+// Middleware to parse JSON request body
+app.use(bodyParser.json());
+
+// Update CORS configuration to allow requests from your frontend URL
+app.use(
+  cors({
+    origin: 'https://worldhello.us',
+    methods: ['GET', 'POST'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+  })
+);
+
 // Handle preflight requests
 app.options('/api/sendEmail', (req, res) => {
   res.set('Access-Control-Allow-Origin', 'https://worldhello.us');
@@ -60,22 +72,11 @@ app.post('/api/sendEmail', async (req, res) => {
   }
 });
 
-app.use(bodyParser.json());
-
 app.use(express.static('public'));
 
 app.get('/', (req, res) => {
   res.send('WorldHello!');
 });
-
-// Update CORS configuration to allow requests from your frontend URL
-app.use(
-  cors({
-    origin: 'https://worldhello.us',
-    methods: ['GET', 'POST'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
-  })
-);
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
