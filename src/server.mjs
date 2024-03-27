@@ -2,7 +2,6 @@ import express from 'express';
 import cors from 'cors';
 import nodemailer from 'nodemailer';
 import bodyParser from 'body-parser';
-import path from 'path';
 
 const app = express();
 const port = process.env.PORT || 3001;
@@ -84,14 +83,6 @@ app.post('/api/sendEmail', async (req, res) => {
 });
 
 app.use(express.static('public'));
-
-// A middleware to serve static files from the public folder
-app.use(express.static(path.join(__dirname, 'public')));
-
-// Server the index.html for all other routes
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
-});
 
 // Code logic to listen to the port
 app.listen(port, () => {
