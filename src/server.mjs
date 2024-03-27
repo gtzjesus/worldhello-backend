@@ -12,7 +12,9 @@ app.use(bodyParser.json());
 // Update CORS configuration to allow requests from your frontend URL
 app.use(
   cors({
-    origin: 'https://worldhello.us',
+    origin: '*',
+    // origin: 'https://worldhello.us',
+
     methods: ['GET', 'POST'],
     allowedHeaders: ['Content-Type', 'Authorization'],
   })
@@ -20,12 +22,13 @@ app.use(
 
 // Handle preflight requests
 app.options('/api/sendEmail', (req, res) => {
-  res.set('Access-Control-Allow-Origin', 'https://worldhello.us');
+  res.set('Access-Control-Allow-Origin', '*');
   res.set('Access-Control-Allow-Methods', 'POST');
   res.set('Access-Control-Allow-Headers', 'Content-Type');
   res.status(200).end();
 });
 
+// Handle POST route to send email
 app.post('/api/sendEmail', async (req, res) => {
   try {
     const {
@@ -38,6 +41,7 @@ app.post('/api/sendEmail', async (req, res) => {
       howDidYouHear,
     } = req.body;
 
+    // Create nodemailer transporter for persmission to access authenticated email
     const transporter = nodemailer.createTransport({
       host: 'smtp.office365.com',
       port: 587,
@@ -48,6 +52,7 @@ app.post('/api/sendEmail', async (req, res) => {
       },
     });
 
+    // Set our mail options
     const mailOptions = {
       from: 'gtz.jesus@outlook.com',
       to: 'gtz.jesus@outlook.com',
@@ -63,11 +68,16 @@ app.post('/api/sendEmail', async (req, res) => {
             `,
     };
 
+    // Send mail with built-in 'sendMail' function
     const info = await transporter.sendMail(mailOptions);
     console.log('Email sent:', info.response);
+
+    // Status success
     res.status(200).json({ message: 'Email sent successfully' });
   } catch (error) {
     console.error('Error sending email:', error);
+
+    // Status fail
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
@@ -78,6 +88,7 @@ app.get('/', (req, res) => {
   res.send('WorldHello!');
 });
 
+// Code logic to listen to the port
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
