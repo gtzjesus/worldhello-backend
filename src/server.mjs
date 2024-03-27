@@ -83,12 +83,6 @@ app.post('/api/sendEmail', async (req, res) => {
   }
 });
 
-// Get the absolute path to the public folder
-const publicFolderPath = path.join(__dirname, 'public');
-
-// Use the publicFolderPath as needed in your application
-console.log('Public folder path:', publicFolderPath);
-
 app.use(express.static('public'));
 
 // Serve static files from the public folder
