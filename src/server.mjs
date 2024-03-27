@@ -85,12 +85,8 @@ app.post('/api/sendEmail', async (req, res) => {
 
 app.use(express.static('public'));
 
-// Serve static files from the public folder
-app.use(express.static(path.join(__dirname, 'public')));
-
-// Server the index.html for all other routes
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+app.get('/', (req, res) => {
+  res.send('WorldHello!');
 });
 
 // Code logic to listen to the port
