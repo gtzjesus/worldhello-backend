@@ -12,8 +12,15 @@ const app = express();
 // Middleware to parse JSON requests
 app.use(express.json());
 
-// Enable CORS for all routes
-app.use(cors());
+// Enable CORS for all routes with specific origins
+const corsOptions = {
+  origin: [
+    'http://localhost:3000', // Allow local frontend
+    'https://worldhello.us', // Allow production frontend
+  ],
+  optionsSuccessStatus: 200,
+};
+app.use(cors(corsOptions));
 
 // Use the clients routes
 app.use('/clients', clientsRoutes);
